@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A61654AF-63DD-45ED-BF72-8969A4A0999B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>gitauthentication</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3B9CC905-FC23-429A-ACF5-E1E70BEA4DDF</key>
+		<string>https://github.com/bradleypj823/authdemo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>gitauthentication.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3B9CC905-FC23-429A-ACF5-E1E70BEA4DDF</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/bradleypj823/authdemo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3B9CC905-FC23-429A-ACF5-E1E70BEA4DDF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3B9CC905-FC23-429A-ACF5-E1E70BEA4DDF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>gitauthentication</string>
+		</dict>
+	</array>
+</dict>
+</plist>

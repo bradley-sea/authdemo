@@ -30,30 +30,55 @@
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
-    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
     
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
     [request setURL:[NSURL URLWithString:@"https://github.com/login/oauth/access_token"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
     
-    NSURLResponse *response;
-    NSError *error;
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    self.accessToken = [self convertResponseIntoToken:responseData];
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        if (error)
+        {
+            NSLog(@"error: %@",error.description);
+        }
+        
+        self.accessToken = [self convertResponseIntoToken:data];
+        
+        NSString *repoString = [NSString stringWithFormat:@"https://api.github.com/user/repos?access_token=%@", self.accessToken];
+        
+        NSURL *repoURL = [NSURL URLWithString:repoString];
+        NSData *repoData = [NSData dataWithContentsOfURL:repoURL];
+        NSError *repoerror;
+        NSMutableDictionary *repoDict = [NSJSONSerialization JSONObjectWithData:repoData
+                                                                        options:NSJSONReadingMutableContainers
+                                                                          error:&repoerror];
+        NSLog(@"%@",repoDict);
+        
+    }];
     
-    NSString *repoString = [NSString stringWithFormat:@"https://api.github.com/user/repos?access_token=%@", self.accessToken];
+    [postDataTask resume];
     
-    NSURL *repoURL = [NSURL URLWithString:repoString];
-    NSData *repoData = [NSData dataWithContentsOfURL:repoURL];
-    NSError *repoerror;
-    NSMutableDictionary *repoDict = [NSJSONSerialization JSONObjectWithData:repoData
-                                                                      options:NSJSONReadingMutableContainers
-                                                                        error:&repoerror];
-    NSLog(@"%@",repoDict);
+//    
+//    NSURLResponse *response;
+//    NSError *error;
+//    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    
+//    NSString *repoString = [NSString stringWithFormat:@"https://api.github.com/user/repos?access_token=%@", self.accessToken];
+//    
+//    NSURL *repoURL = [NSURL URLWithString:repoString];
+//    NSData *repoData = [NSData dataWithContentsOfURL:repoURL];
+//    NSError *repoerror;
+//    NSMutableDictionary *repoDict = [NSJSONSerialization JSONObjectWithData:repoData
+//                                                                      options:NSJSONReadingMutableContainers
+//                                                                        error:&repoerror];
+//    NSLog(@"%@",repoDict);
     
 
 }
@@ -81,6 +106,8 @@
 -(void)requestOAuthAccess
 {
     NSString *urlString = [NSString stringWithFormat:GITHUB_OAUTH_URL,GITHUB_CLIENT_ID,GITHUB_CALLBACK_URI,@"user,repo"];
+    NSLog(@" %@", urlString);
+    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 }
 
